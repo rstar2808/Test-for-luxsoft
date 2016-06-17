@@ -1,5 +1,5 @@
 django==1.4.3
-django-bootstrap3
+django-bootstrap3==6.2.1
 django-couch-utils
 pycurl
 django-annoying
