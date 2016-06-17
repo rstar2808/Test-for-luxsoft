@@ -45,16 +45,14 @@ def home(request):
 
 @render_to('shop_taxes/login.html')
 def login_view(request):
+
+    form = LoginForm(request.POST or None)
     if request.method == 'POST':
-        form = LoginForm(request.POST)
         if form.is_valid():
             user = form.cleaned_data
             login(request, user)
             return HttpResponseRedirect(request.GET.get('next', None) or reverse('home'))
 
-    else:
-        form = LoginForm()
-    print 1
     return {
         'form': form,
     }
