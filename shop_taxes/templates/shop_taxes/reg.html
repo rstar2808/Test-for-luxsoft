@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}
+    Registration
+{% endblock %}
+
+{% block body %}
+<div class="container theme-showcase" role="main">
+    <div class="row">
+        <div class="col-md-6">
+            <form class="form-signup" method="POST">
+                <h2 class="form-signup-heading">Registration</h2>
+                {% bootstrap_form form %}{% csrf_token %}
+                <input class="btn btn-primary" type="submit" value="Sign in">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
