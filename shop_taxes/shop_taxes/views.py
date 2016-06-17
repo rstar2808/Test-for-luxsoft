@@ -54,7 +54,7 @@ def login_view(request):
 
     else:
         form = LoginForm()
-
+    print 1
     return {
         'form': form,
     }
