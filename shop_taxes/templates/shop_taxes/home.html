@@ -1,15 +1,94 @@
 {% extends 'base.html' %}
 {% load bootstrap3 %}
+{% load extras %}
 
 {% block title %}
     Home
 {% endblock %}
-
+{% block lib %}
+<script>
+function buy_product(product_id){
+    var input_data = $('#in_' + product_id);
+    var product_count = parseInt(input_data.val());
+    if (product_count > 0){
+        $.get( "{% url home %}", {"product_id": product_id}, function( data ) {
+            if (data['status'] == 'OK'){
+                var cost = data['cost'] * product_count;
+                var tax = parseFloat((cost / 100 * data['tax']));
+                var total_pr_cost = (cost + tax).toFixed(2);
+                input_data.val("");
+                $('#basket').append('<tr><td>' + data["name"] + '</td><td>'+ product_count +'</td><td>'+ total_pr_cost +'</td></tr>');
+                $('#tax').html((parseFloat($('#tax').html()) + tax).toFixed(2));
+                $('#total').html((parseFloat($('#total').html()) + cost + tax).toFixed(2));
+            }
+        });
+    } else {
+        input_data.val("");
+    }
+}
+</script>
+{% endblock %}
 {% block body %}
     <div class="container theme-showcase" role="main">
         <div class="row">
             <div class="col-md-6">
-                sfsdfsdfsdf
+                {% if goods %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Goods list</div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Название</th>
+                                    <th>Цена</th>
+                                    <th>Категория</th>
+                                    <th>Описание</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in goods %}
+                                    <tr>
+                                        <td>{{ product.name }}</td>
+                                        <td>{{ product.cost }}</td>
+                                        <td>{{ category|get:product.category }}</td>
+                                        <td>{{ product.description }}</td>
+                                        <td><input class="form-control input-sm" id="in_{{ product.id }}" type="text"></td>
+                                        <td><button class='btn btn-sm btn-primary' onclick="buy_product('{{ product.id }}')" href='{% url home %}'>+</button></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                  Goods not found
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Корзина</div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Название</th>
+                                <th>Количество</th>
+                                <th>Сумма</th>
+                            </tr>
+                        </thead>
+                        <tbody id="basket">
+                        </tbody>
+                        <tfooter>
+                            <tr>
+                                <td colspan="2">Налог:</td>
+                                <td id="tax">0</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Итого:</td>
+                                <td id="total">0</td>
+                            </tr>
+                        </tfooter>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

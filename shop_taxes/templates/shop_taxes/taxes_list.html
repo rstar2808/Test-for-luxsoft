@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 {% load bootstrap3 %}
-{% load extras %}
 
 {% block title %}
-    Goods list
+    Taxes list
 {% endblock %}
 
 {% block body %}
@@ -11,36 +10,34 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="page-header">
-                  <h1>Goods list <small></small></h1>
+                  <h1>Taxes list <small></small></h1>
                 </div>
-                {% if goods %}
+                {% if taxes %}
                     <div class="panel panel-default">
-                        <div class="panel-heading">Goods list</div>
+                        <div class="panel-heading">Taxes list</div>
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th>Название</th>
-                                    <th>Цена</th>
-                                    <th>Категория</th>
+                                    <th>Процент</th>
                                     <th>Описание</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for product in goods %}
+                                {% for tax in taxes %}
                                     <tr>
-                                        <td>{{ product.name }}</td>
-                                        <td>{{ product.cost }}</td>
-                                        <td>{{ category|get:product.category }}</td>
-                                        <td>{{ product.description }}</td>
-                                        <td><a class='btn btn-sm btn-primary' href='{% url product_edit product.id %}'>Правка</a></td>
+                                        <td>{{ tax.name }}</td>
+                                        <td>{{ tax.procent }}%</td>
+                                        <td>{{ tax.description }}</td>
+                                        <td><a class='btn btn-sm btn-primary' href='{% url tax_edit tax.id %}'>Правка</a></td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
                 {% else %}
-                  Goods not found
+                  Taxes not found
                 {% endif %}
             </div>
         </div>

@@ -3,3 +3,4 @@ django-bootstrap3
 django-couch-utils
 pycurl
 django-annoying
+couchdbcurl

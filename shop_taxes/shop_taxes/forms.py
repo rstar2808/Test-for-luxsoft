@@ -51,3 +51,24 @@ class AddUserForm(forms.Form):
         return self.cleaned_data['password2']
 
 
+class TaxEditForm(forms.Form):
+    is_active = forms.BooleanField(label=u'Active', required=False)
+    name = forms.CharField(label='Name', widget=forms.TextInput(), required=True)
+    procent = forms.IntegerField(label='Procent', required=True)
+    description = forms.CharField(label='Description', widget=forms.Textarea(), required=True)
+
+
+class ProductEditForm(forms.Form):
+    is_active = forms.BooleanField(label=u'Active', required=False)
+    name = forms.CharField(label='Name', widget=forms.TextInput(), required=True)
+    cost = forms.FloatField(label='Cost', required=True)
+    category = forms.ChoiceField(label='Category', choices=[], required=True)
+    description = forms.CharField(label='Description', widget=forms.Textarea(), required=True)
+
+    def __init__(self, *args, **kwargs):
+        category = []
+        if 'category' in kwargs:
+            category = kwargs['category']
+            del kwargs['category']
+        super(ProductEditForm, self).__init__(*args, **kwargs)
+        self.fields['category'].choices = category
