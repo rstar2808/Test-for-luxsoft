@@ -1,0 +1,5 @@
+django==1.4.3
+django-bootstrap3
+django-couch-utils
+pycurl
+django-annoying
